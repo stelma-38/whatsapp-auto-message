@@ -1,7 +1,9 @@
 name: Test WhatsApp Message
 
 on:
-  workflow_dispatch:  # Permet de lancer manuellement depuis l'interface
+  schedule:
+    - cron: '0 11 */2 * *'  # tous les 2 jours à 11h UTC soit 12h ETC
+
 
 jobs:
   send-message:
