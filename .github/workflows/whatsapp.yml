@@ -2,9 +2,8 @@ name: Test WhatsApp Message
 
 on:
   schedule:
- - cron:  '0 11 */2 * *'
-
-
+    - cron: '*/10 * * * *'   # Exécution toutes les 10 minutes
+  workflow_dispatch:          # Permet de lancer manuellement
 
 jobs:
   send-message:
@@ -18,7 +17,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
 
       - name: Install Twilio
         run: pip install twilio
