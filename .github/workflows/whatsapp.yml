@@ -1,9 +1,9 @@
-name: Reactivation whatsapp toutes les 48 heures
+name: Test WhatsApp Message
 
 on:
   schedule:
-    - cron: '0 13 */2 * *'   # Tous les 2 jours à 13:00 
-  workflow_dispatch:
+    - cron: '*/10 * * * *'   # Exécution toutes les 10 minutes
+  workflow_dispatch:          # Permet de lancer manuellement
 
 jobs:
   send-message:
