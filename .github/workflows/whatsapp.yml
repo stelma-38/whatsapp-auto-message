@@ -1,9 +1,9 @@
-name: WhatsApp keep-alive (48h, 13h CET)
+name: WhatsApp keep-alive (test 10 minutes)
 
 on:
   schedule:
-    - cron: "0 12 */2 * *"  # 12h UTC = 13h CET, tous les 2 jours
-  workflow_dispatch:          # permet de lancer manuellement si besoin
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
 
 jobs:
   send-message:
