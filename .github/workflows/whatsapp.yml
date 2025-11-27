@@ -27,3 +27,21 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_WHATSAPP_TO: ${{ secrets.TWILIO_WHATSAPP_TO }}
         run: python send_whatsapp.py
+
+          keepalive:
+    runs-on: ubuntu-latest
+    schedule:
+      - cron: "0 */12 * * *" # toutes les 12h
+    steps:
+      - name: Keep repository active
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            fs.writeFileSync('keepalive.txt', new Date().toISOString());
+            await exec.exec('git', ['config', 'user.name', 'github-actions']);
+            await exec.exec('git', ['config', 'user.email', 'github-actions@github.com']);
+            await exec.exec('git', ['add', 'keepalive.txt']);
+            await exec.exec('git', ['commit', '-m', 'keepalive']);
+            await exec.exec('git', ['push']);
+
