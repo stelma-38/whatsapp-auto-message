@@ -1,4 +1,4 @@
-name: WhatsApp keep-alive (test 10 minutes)
+name: WhatsApp keep-alive (every day at13h00 CET)
 
 on:
   schedule:
