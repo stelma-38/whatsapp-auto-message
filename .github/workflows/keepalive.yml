@@ -2,7 +2,7 @@ name: Keep repository active
 
 on:
   schedule:
-    - cron: "0 */12 * * *"   # toutes les 12h
+    - cron: "0 */12 * * *"   # toutes les 12 heures
   workflow_dispatch:
 
 jobs:
@@ -10,15 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Keep repository active
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
+
+            // écrire un fichier pour forcer un commit
             fs.writeFileSync('keepalive.txt', new Date().toISOString());
 
             await exec.exec('git', ['config', 'user.name', 'github-actions']);
             await exec.exec('git', ['config', 'user.email', 'github-actions@github.com']);
             await exec.exec('git', ['add', 'keepalive.txt']);
-            await exec.exec('git', ['commit', '-m', 'keepalive']);
+            await exec.exec('git', ['commit', '-m', 'keepalive', '--allow-empty']);
             await exec.exec('git', ['push']);
