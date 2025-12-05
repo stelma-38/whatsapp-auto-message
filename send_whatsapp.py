@@ -1,18 +1,23 @@
-from twilio.rest import Client
 import os
+from twilio.rest import Client
+from datetime import datetime
 
+# Récupération des secrets depuis GitHub Actions
 account_sid = os.environ["TWILIO_ACCOUNT_SID"]
 auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+to_whatsapp = os.environ["TWILIO_WHATSAPP_TO"]  # ton numéro WhatsApp dans le sandbox
+from_whatsapp = "whatsapp:+14155238886"  # numéro sandbox Twilio
+
 client = Client(account_sid, auth_token)
 
-from_whatsapp = "whatsapp:+14155238886"  # Twilio sandbox
-to_whatsapp = os.environ["TWILIO_WHATSAPP_TO"]
+# Message keepalive (on peut mettre n'importe quel texte court)
+message_body = f"WhatsApp keepalive ✅ {datetime.now().strftime('%d/%m/%Y %H:%M')}"
 
+# Envoi du message
 message = client.messages.create(
     from_=from_whatsapp,
-    to=f"whatsapp:{to_whatsapp}",
-    messaging_service_sid=None,  # si tu utilises sandbox, laisse None
-    template="keep_alive"          # nom exact du template que tu as créé
+    to=to_whatsapp,
+    body=message_body
 )
 
 print("Message envoyé :", message.sid)
